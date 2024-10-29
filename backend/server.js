@@ -6,8 +6,14 @@ import dotenv from 'dotenv';
 import errorHandler from "./middleware/errorHandler.js";
 dotenv.config();
 
+import userRoutes from "./routes/userRoutes.js"
+
 const app = express();
 const PORT = process.env.PORT || 4000;
+
+app.use("/home", (req,res)=>{
+    return res.send("hello")
+})
 
 app.use(
     cors({
@@ -19,6 +25,8 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(errorHandler);
 app.use(express.urlencoded({ extended: true }));
+
+app.use("/job/user", userRoutes);
 
 app.listen(PORT, ()=>{
     connectDb();
