@@ -7,6 +7,7 @@ import errorHandler from "./middleware/errorHandler.js";
 dotenv.config();
 
 import userRoutes from "./routes/userRoutes.js"
+import companyRoutes from "./routes/companyRoutes.js"
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -27,6 +28,7 @@ app.use(errorHandler);
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/job/user", userRoutes);
+app.use("/job/company", companyRoutes);
 
 app.listen(PORT, ()=>{
     connectDb();
