@@ -8,6 +8,7 @@ dotenv.config();
 
 import userRoutes from "./routes/userRoutes.js"
 import companyRoutes from "./routes/companyRoutes.js"
+import jobRoutes from "./routes/jobRoutes.js"
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -29,6 +30,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/job/user", userRoutes);
 app.use("/job/company", companyRoutes);
+app.use("/job/", jobRoutes);
 
 app.listen(PORT, ()=>{
     connectDb();

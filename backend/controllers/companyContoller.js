@@ -1,9 +1,10 @@
 import asyncHandler from "express-async-handler";
-import {Company} from "../models/companyModel.js"
+import {Company} from "../models/companyModel.js";
 import { User } from "../models/userModel.js";
 
 export const registerCompany = asyncHandler(async (req,res)=>{
     const {name, description, website, location} = req.body;
+    const user = await User.findById(req.user._id);
 
     if(!name || !location){
         res.status(400);
@@ -30,6 +31,9 @@ export const registerCompany = asyncHandler(async (req,res)=>{
         userId
     })
 
+    user.profile.company.push(company._id);
+
+    await user.save();
     await company.save();
 
     res.status(200).json({
