@@ -40,6 +40,7 @@ export const postJob = asyncHandler(async(req,res)=>{
 
 })
 
+//For students
 export const getAllJobs = asyncHandler(async (req,res)=>{
     const keyword = req.query.keyword || "";
     const query ={
@@ -48,11 +49,37 @@ export const getAllJobs = asyncHandler(async (req,res)=>{
             {description :{$regex:keyword , $options:"i"}},
         ]
     };
-    const jobs = await Job.find(query);
+    const jobs = await Job.find(query).populate({path:"company"}).sort({createdAt:-1});
 
     if(!jobs || jobs.length ===0){
         res.status(404);
         throw new Error("No jobs found");
+    }
+
+    res.status(200).json({jobs});
+})
+
+//For students
+export const getJobById = asyncHandler(async(req,res)=>{
+    const jobId = req.params.id;
+    const job = await Job.findById(jobId).populate({path:"company"}).sort({createdAt:-1});
+
+    if(!job){
+        res.status(404);
+        throw new Error("No job found!");
+    }
+
+    res.status(200).json({job});
+})
+
+//For admin
+export const getAdminJobs = asyncHandler(async (req,res)=>{
+    const userId = req.user._id;
+    const jobs = await Job.find({created_by:userId});
+
+    if(!jobs){
+        res.status(404);
+        throw new Error("No jobs found!");
     }
 
     res.status(200).json({jobs});

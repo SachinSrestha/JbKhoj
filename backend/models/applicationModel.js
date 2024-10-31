@@ -16,15 +16,6 @@ const applicationSchema = mongoose.Schema({
         enum:['pending','accepted','rejected'],
         default:'pending'
     }
-    // company:{
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref:'Company',
-    //     required:true
-    // },
-    // skills:[{
-    //     type:String,
-    //     required:true
-    // }]
 }, {timeseries:true});
 
 export const Application= mongoose.model('Application', applicationSchema);
