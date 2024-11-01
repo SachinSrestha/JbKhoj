@@ -22,10 +22,10 @@ function Navbar() {
         <div className="flex gap-14">
           <ul className="flex font-medium items-center gap-5">
             <li>
-              <Link to="/home">Home</Link>{" "}
+              <Link to="/">Home</Link>{" "}
             </li>
             <li>
-              <Link to="/job">Jobs</Link>{" "}
+              <Link to="/jobs">Jobs</Link>{" "}
             </li>
             <li>
               <Link to="/browse">Browse</Link>{" "}
@@ -34,8 +34,8 @@ function Navbar() {
 
           {!user ? (
             <div className="space-x-2">
-              <Button className="bg-blue-600 hover:bg-blue-500">Login</Button>
-              <Button className="bg-red-500 hover:bg-red-400">Signup</Button>
+              <Link to="/login"><Button className="bg-blue-600 hover:bg-blue-500">Login</Button></Link>
+              <Link to="/signup"><Button className="bg-red-500 hover:bg-red-400">Signup</Button></Link>
             </div>
           ) : (
             <Popover>
