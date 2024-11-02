@@ -4,8 +4,15 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button } from "../ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import axios from "axios";
+import { toast } from "sonner";
+import { USER_API_END_POINT } from "../../utils/constant.js";
+import { useDispatch, useSelector } from "react-redux";
+import { Loader2 } from "lucide-react";
+import { setLoading } from "@/store/authSlice.js";
+import store from "@/store/store.js";
 
 function SignUp() {
   const [input, setInput] = useState({
@@ -16,6 +23,10 @@ function SignUp() {
     role: "student",
     file: "",
   });
+
+  const { loading } = useSelector((store) => store.auth);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const changeEventHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
@@ -31,7 +42,33 @@ function SignUp() {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    console.log(input);
+    dispatch(setLoading(true));
+    const formData = new FormData();
+    formData.append("fullName", input.fullname);
+    formData.append("email", input.email);
+    formData.append("mobileNumber", input.phoneNumber);
+    formData.append("password", input.password);
+    formData.append("role", input.role);
+    if (input.file) formData.append("file", input.file);
+
+    console.log(formData);
+    try {
+      const res = await axios.post(`${USER_API_END_POINT}/register`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        withCredentials: true,
+      });
+      if (res.data.success) {
+        navigate("/login");
+        toast.success(res.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    }finally{
+      dispatch(setLoading(false));
+    }
   };
   return (
     <div>
@@ -109,7 +146,9 @@ function SignUp() {
                   onChange={handleOptionChange}
                   className="cursor-pointer"
                 />
-                <Label htmlFor="student" className="text-[1.01rem]">Student</Label>
+                <Label htmlFor="student" className="text-[1.01rem]">
+                  Student
+                </Label>
               </div>
               <div className="flex items-center space-x-2">
                 <Input
@@ -120,7 +159,9 @@ function SignUp() {
                   onChange={handleOptionChange}
                   className="cursor-pointer"
                 />
-                <Label htmlFor="recruiter" className="text-[1.01rem]">Recruiter</Label>
+                <Label htmlFor="recruiter" className="text-[1.01rem]">
+                  Recruiter
+                </Label>
               </div>
             </RadioGroup>
             <div className="flex justify-end">
@@ -136,14 +177,25 @@ function SignUp() {
               />
             </div>
           </div>
-          <div className="mx-auto w-full mt-7 mb-4">
-            <Button
-              type="submit"
-              className="w-full bg-blue-500  hover:bg-blue-400 active:bg-blue-600"
-            >
-              Submit
-            </Button>
-          </div>
+
+          {loading ? (
+            <div className="mx-auto w-full mt-7 mb-4">
+              <Button className="w-full bg-blue-500 hover:bg-blue-400 active:bg-blue-600">
+                {" "}
+                <Loader2 />{" "}
+              </Button>
+            </div>
+          ) : (
+            <div className="mx-auto w-full mt-7 mb-4">
+              <Button
+                type="submit"
+                className="w-full bg-blue-500  hover:bg-blue-400 active:bg-blue-600"
+              >
+                Submit
+              </Button>
+            </div>
+          )}
+
           <span>
             Already have an account?{" "}
             <Link to="/login" className="text-blue-500">

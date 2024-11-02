@@ -2,8 +2,15 @@ import React from "react";
 import Navbar from "./Navbar";
 import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import axios from "axios";
+import { USER_API_END_POINT } from "../../utils/constant.js";
+import { toast } from "sonner";
+import { setLoading } from "@/store/authSlice.js";
+import { useDispatch, useSelector } from "react-redux";
+import store from "@/store/store.js";
+import { Loader2 } from "lucide-react";
 
 function Login() {
   const [input, setInput] = useState({
@@ -11,13 +18,34 @@ function Login() {
     password: "",
   });
 
+  const { loading } = useSelector((store) => store.auth);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const changeEventHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    console.log(input);
+    try {
+      dispatch(setLoading(true));
+      const res = await axios.post(`${USER_API_END_POINT}/login`, input, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      });
+      if (res.data.success) {
+        navigate("/");
+        toast.success(res.data.message);
+      }
+    } catch (error) {
+      console.log(error.response);
+      toast.error(error.response.data.message);
+    } finally {
+      dispatch(setLoading(false));
+    }
   };
 
   return (
@@ -57,14 +85,23 @@ function Login() {
             />
           </div>
 
-          <div className="mx-auto w-full mt-8 mb-4">
-            <Button
-              type="submit"
-              className="w-full bg-blue-500 hover:bg-blue-400 active:bg-blue-600"
-            >
-              Submit
-            </Button>
-          </div>
+          {loading ? (
+            <div className="mx-auto w-full mt-7 mb-4">
+              <Button className="w-full bg-blue-500 hover:bg-blue-400 active:bg-blue-600">
+                {" "}
+                <Loader2 />{" "}
+              </Button>
+            </div>
+          ) : (
+            <div className="mx-auto w-full mt-7 mb-4">
+              <Button
+                type="submit"
+                className="w-full bg-blue-500  hover:bg-blue-400 active:bg-blue-600"
+              >
+                Submit
+              </Button>
+            </div>
+          )}
           <span>
             Don't have an account?{" "}
             <Link to="/signup" className="text-blue-500">
