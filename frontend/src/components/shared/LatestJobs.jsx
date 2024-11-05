@@ -10,7 +10,7 @@ function LatestJobs() {
       </h1>
       <div className="flex flex-wrap grid-cols-3 gap-x-4 gap-y-5 ml-20 mt-6 h-auto">
         {JobLists.slice(0, 6).map((item, index) => (
-          <div className="max-w-[445px] outline-none shadow-xl p-5 border-2 border-slate-100 rounded-lg cursor-pointer">
+          <div className="max-w-[445px] outline-none shadow-xl p-5 border-2 border-slate-100 rounded-lg cursor-pointer" key={index}>
             <h4 className="text-lg font-medium">Google</h4>
             <p className="text-slate-500 text-sm ">India</p>
             <p className="text-lg font-bold mt-2">FullStack Developer</p>

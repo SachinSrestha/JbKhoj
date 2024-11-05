@@ -7,7 +7,7 @@ import { useState } from "react";
 import axios from "axios";
 import { USER_API_END_POINT } from "../../utils/constant.js";
 import { toast } from "sonner";
-import { setLoading } from "@/store/authSlice.js";
+import { setLoading, setUser } from "@/store/authSlice.js";
 import { useDispatch, useSelector } from "react-redux";
 import store from "@/store/store.js";
 import { Loader2 } from "lucide-react";
@@ -37,6 +37,7 @@ function Login() {
         withCredentials: true,
       });
       if (res.data.success) {
+        dispatch(setUser(res.data.user));
         navigate("/");
         toast.success(res.data.message);
       }
