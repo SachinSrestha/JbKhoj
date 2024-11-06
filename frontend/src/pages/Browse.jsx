@@ -2,10 +2,12 @@ import Navbar from "@/components/shared/Navbar";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const randomJobList = [1, 2, 3, 4,5,6,7,8];
 
 function Browse() {
+  const navigate = useNavigate();
   return (
     <div>
       <Navbar />
@@ -45,7 +47,7 @@ function Browse() {
                 45 LPA
               </span>
               <div className="mt-4 space-x-4">
-                <Button variant="outline">Details</Button>
+                <Button variant="outline" onClick={()=> navigate("/description")}>Details</Button>
                 <Button
                   variant="primary"
                   className="bg-purple-800 text-white hover:bg-purple-700 active:bg-purple-900"

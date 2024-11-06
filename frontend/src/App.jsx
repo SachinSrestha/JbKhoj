@@ -6,6 +6,7 @@ import Home from './pages/Home.jsx'
 import Jobs from './pages/Jobs.jsx'
 import Browse from './pages/Browse.jsx'
 import Profile from './pages/Profile.jsx'
+import JobDescription from './components/shared/JobDescription.jsx'
 
 const appRouter =createBrowserRouter([
   {
@@ -23,6 +24,10 @@ const appRouter =createBrowserRouter([
   {
     path:"/jobs",
     element:<Jobs/>
+  },
+  {
+    path:"/description",
+    element:<JobDescription/>
   },
   {
     path:"/browse",

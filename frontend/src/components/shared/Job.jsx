@@ -2,8 +2,10 @@ import React from 'react'
 import { Button } from '../ui/button'
 import { Bookmark } from 'lucide-react'
 import { Avatar, AvatarImage } from '../ui/avatar'
+import { useNavigate } from 'react-router-dom'
 
 function Job() {
+  const navigate = useNavigate();
   return (
     <div className="max-w-96 outline-none shadow-xl p-5 border-2 border-slate-100 rounded-lg cursor-pointer bg-white">
         <div className='flex justify-between'>
@@ -38,7 +40,7 @@ function Job() {
             </span>
             <div className='mt-4 space-x-4'>
 
-            <Button variant="outline">Details</Button>
+            <Button variant="outline" onClick={()=> navigate("/description")}>Details</Button>
             <Button variant="primary" className="bg-purple-800 text-white hover:bg-purple-700 active:bg-purple-900">Save For Later</Button>
             </div>
           </div>
