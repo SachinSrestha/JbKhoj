@@ -1,17 +1,23 @@
 import Navbar from "@/components/shared/Navbar";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Contact, Mail, Pen } from "lucide-react";
+import { Contact, Mail, Pen, User } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import React, { useState } from "react";
 import AppliedJobTable from "@/components/shared/AppliedJobTable";
 import UpdateProfileDialog from "@/components/shared/UpdateProfileDialog";
-
-const skillsArray=[1,2,3,4];
+import { useSelector } from "react-redux";
 
 function Profile() {
   const [open, setOpen]= useState(false);
-  const isResume =true;
+  const {user} = useSelector(store => store.auth)
+  let isResume = false;
+  if(user.profile.resume){
+    isResume = true;
+  }else{
+    isResume=false;
+  }
+  const skillsArray =user.profile.skills.map(skill=>skill)
   return (
     <div>
       <Navbar />
@@ -19,11 +25,11 @@ function Profile() {
         <div className="flex justify-between">
           <div className="flex items-center gap-4">
             <Avatar className="cursor-pointer size-[90px] ">
-              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarImage src={user.profile.profilePhoto || "https://github.com/shadcn.png"}/>
             </Avatar>
             <div>
-              <h1 className="text-xl font-medium">Sachin Shrestha</h1>
-              <p className="">Experienced Software Developer</p>
+              <h1 className="text-xl font-medium">{user.fullName}</h1>
+              <p className="">{user.profile.bio }</p>
             </div>
           </div>
           <Button
@@ -36,26 +42,27 @@ function Profile() {
         </div>
         <div className="flex mt-5 gap-x-3 items-center">
             <Mail className="size-5"/>
-            <p >sachinstha123@gmail.com</p>
+            <p >{user.email}</p>
         </div>
         <div className="flex mt-2 gap-x-3 items-center">
             <Contact className="size-5"/>
-            <p>9841123456</p>
+            <p>{user.mobileNumber}</p>
         </div>
 
         <h1 className="mt-6 font-bold">Skills</h1>
         <div className="flex flex-wrap gap-x-2 mt-1 ">
 
         {
+          skillsArray.length <=0? <h1 className="text-base ">No Skills Added</h1>:
             skillsArray.map((skill,index) =>(
-                <Badge className="bg-black text-white text-[13px] py-0.5" key={index}>Nextjs</Badge>
+                <Badge className="bg-black text-white text-[13px] py-0.5" key={index}>{skill}</Badge>
             ))
         }
         </div>
         <h1 className="mt-5 font-bold">Resume</h1>
         <div className="mt-[7px] ">
           { 
-            isResume? <a target="_blank" href="https://github.com/" className="text-blue-500 hover:underline cursor-pointer">Resume</a> : <span>No Resume</span>
+            isResume? <a target="_blank" href={user.profile.resume} className="text-blue-500 hover:underline cursor-pointer">{user?.profile?.resumeOriginalName}</a> : <span>No Resume</span>
           }
         </div>
       </div>

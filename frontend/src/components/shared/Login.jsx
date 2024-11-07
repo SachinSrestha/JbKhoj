@@ -90,7 +90,7 @@ function Login() {
             <div className="mx-auto w-full mt-7 mb-4">
               <Button className="w-full bg-blue-500 hover:bg-blue-400 active:bg-blue-600">
                 {" "}
-                <Loader2 />{" "}
+                <Loader2 className='mr-1 h-4 w-4 animate-spin' />Please Wait
               </Button>
             </div>
           ) : (

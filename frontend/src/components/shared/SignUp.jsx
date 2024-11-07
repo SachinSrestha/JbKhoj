@@ -42,6 +42,7 @@ function SignUp() {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+    
     dispatch(setLoading(true));
     const formData = new FormData();
     formData.append("fullName", input.fullname);
@@ -182,7 +183,7 @@ function SignUp() {
             <div className="mx-auto w-full mt-7 mb-4">
               <Button className="w-full bg-blue-500 hover:bg-blue-400 active:bg-blue-600">
                 {" "}
-                <Loader2 />{" "}
+                <Loader2 className='mr-1 h-4 w-4 animate-spin' />Please Wait
               </Button>
             </div>
           ) : (
