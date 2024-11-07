@@ -26,13 +26,14 @@ app.use(
 );
 app.use(express.json());
 app.use(cookieParser());
-app.use(errorHandler);
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/job/user", userRoutes);
 app.use("/job/company", companyRoutes);
 app.use("/job/", jobRoutes);
 app.use("/job/application", applicationRoutes);
+
+app.use(errorHandler);
 
 app.listen(PORT, ()=>{
     connectDb();
