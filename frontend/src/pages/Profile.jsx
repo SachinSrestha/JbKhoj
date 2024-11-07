@@ -55,7 +55,7 @@ function Profile() {
         {
           skillsArray.length <=0? <h1 className="text-base ">No Skills Added</h1>:
             skillsArray.map((skill,index) =>(
-                <Badge className="bg-black text-white text-[13px] py-0.5" key={index}>{skill}</Badge>
+                <Badge className="bg-black text-white text-[13px] py-0.5" key={index}>{skill.toUpperCase()}</Badge>
             ))
         }
         </div>
