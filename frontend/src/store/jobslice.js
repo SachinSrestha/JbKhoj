@@ -3,9 +3,9 @@ import { createSlice } from "@reduxjs/toolkit";
 const jobSlice = createSlice({
   name: "job",
   initialState: {
-    loading: false,
     allJobs: [],
     singleJob: null,
+    loading: false,
   },
   reducers: {
     setAllJobs: (state, action) => {

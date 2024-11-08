@@ -2,17 +2,38 @@ import React, { useState } from "react";
 import { Button } from "../ui/button";
 import { useParams } from "react-router-dom";
 import useGetJob from "@/hooks/useGetJob";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Loader2 } from "lucide-react";
+import axios from "axios";
+import { setJob } from "@/store/jobslice";
+import { toast } from "sonner";
+import { APPLICATION_API_END_POINT } from "../../utils/constant.js";
 
 function JobDescription() {
+  const dispatch = useDispatch();
   const { loading } = useSelector((store) => store.job);
   const {user}= useSelector(store => store.auth);
   const { singleJob } = useSelector((store) => store.job);
-  const isApplied = singleJob?.applications?.some(application => String(application.applicant) === String(user?._id))
+  const isInitiallyApplied = singleJob?.applications?.some(application => String(application.applicant) === String(user?._id))
+  const [isApplied, setIsApplied] = useState(isInitiallyApplied);
   const params = useParams();
   const jobId = params.id;
-  useGetJob(jobId);
+  useGetJob(jobId, setIsApplied);
+
+  const applyJobHandler = async()=>{
+    try {
+      const res = await axios.get(`${APPLICATION_API_END_POINT}/apply/${jobId}`, {withCredentials:true});
+      if(res.data.success){
+        setIsApplied(true);
+        const updatedJob = {...singleJob, applications:[...singleJob.applications, {applicant:user?._id}]};
+        dispatch(setJob(updatedJob));
+        toast.success(res.data.message)
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    }
+  }
   return (
     <>
       {loading ? (
@@ -27,6 +48,7 @@ function JobDescription() {
           <div className="flex justify-between">
             <h1 className="text-2xl font-bold">{singleJob?.title}</h1>
             <Button
+              onClick = {isApplied ? null : applyJobHandler}
               disabled={isApplied}
               className={
                 isApplied

@@ -22,6 +22,7 @@ function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+
   const changeEventHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
@@ -38,7 +39,11 @@ function Login() {
       });
       if (res.data.success) {
         dispatch(setUser(res.data.user));
-        navigate("/");
+        if(res.data.user.role === "student"){
+          navigate("/");
+        }else{
+          navigate("/admin/companies")
+        }
         toast.success(res.data.message);
       }
     } catch (error) {
