@@ -9,6 +9,8 @@ import Profile from './pages/Profile.jsx'
 import JobDescription from './components/shared/JobDescription.jsx'
 import AdminCompanies from './pages/AdminCompanies.jsx'
 import AdminJobs from './pages/AdminJobs.jsx'
+import AdminCompanyCreate from './pages/AdminCompanyCreate.jsx'
+import AdminCompanySetup from './pages/AdminCompanySetup.jsx'
 
 const appRouter =createBrowserRouter([
   {
@@ -48,7 +50,14 @@ const appRouter =createBrowserRouter([
     path:"/admin/jobs",
     element:<AdminJobs/>
   },
-
+  {
+    path:"/admin/companies/create",
+    element:<AdminCompanyCreate/>
+  },
+  {
+    path:"/admin/companies/setup",
+    element:<AdminCompanySetup/>
+  },
 
 ])
 
