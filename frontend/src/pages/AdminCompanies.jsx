@@ -25,7 +25,7 @@ function AdminCompanies() {
       <div className="max-w-6xl mx-auto mt-12">
         <div className="flex justify-between">
           <Input
-            className="w-48"
+            className="w-48 focus:border-black hover:border-gray-900"
             placeholder="Filter by name"
             value={filterByName}
             onChange={handleChange}
