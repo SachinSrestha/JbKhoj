@@ -11,6 +11,7 @@ import AdminCompanies from './pages/AdminCompanies.jsx'
 import AdminJobs from './pages/AdminJobs.jsx'
 import AdminCompanyCreate from './pages/AdminCompanyCreate.jsx'
 import AdminCompanySetup from './pages/AdminCompanySetup.jsx'
+import AdminCompanyEdit from './pages/AdminCompanyEdit.jsx'
 
 const appRouter =createBrowserRouter([
   {
@@ -55,8 +56,12 @@ const appRouter =createBrowserRouter([
     element:<AdminCompanyCreate/>
   },
   {
-    path:"/admin/companies/setup",
+    path:"/admin/companies/setup/:name",
     element:<AdminCompanySetup/>
+  },
+  {
+    path:"/admin/companies/edit/:name",
+    element:<AdminCompanyEdit/>
   },
 
 ])

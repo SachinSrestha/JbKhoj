@@ -32,12 +32,12 @@ function SignUp() {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
 
-  const handleOptionChange = (e) => {
-    setInput({ ...input, role: e.target.value });
-  };
-
   const changeFileHandler = (e) => {
     setInput({ ...input, file: e.target.files?.[0] });
+  };
+  
+  const handleOptionChange = (e) => {
+    setInput({ ...input, role: e.target.value });
   };
 
   const submitHandler = async (e) => {

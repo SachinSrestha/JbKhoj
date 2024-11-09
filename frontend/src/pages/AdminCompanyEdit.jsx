@@ -15,6 +15,7 @@ import useGetAllCompanies from "@/hooks/useGetAllCompanies.jsx";
 function AdminCompanySetup() {
   const params = useParams();
   const companyName = params.name;
+  const {editCompany} = useSelector(store=>store.company);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [input, setInput] = useState({
@@ -45,8 +46,8 @@ function AdminCompanySetup() {
     if (input.file) formData.append("file", input.file);
 
     try {
-      const res = await axios.post(
-        `${COMPANY_API_END_POINT}/register`,
+      const res = await axios.put(
+        `${COMPANY_API_END_POINT}/updatecompany/${editCompany?._id}`,
         formData,
         {
           headers: {
@@ -68,23 +69,14 @@ function AdminCompanySetup() {
     }
   };
 
-  const {allCompanies}= useSelector(store=>store.company)
   useEffect(() => {
-    if (companyName && allCompanies) {
-      const alreadyExists = allCompanies?.some(
-        (company) => company.name.toLowerCase() === companyName.toLowerCase()
-      );
-      if (alreadyExists) {
-        toast.error("Company already exists, Please choose another name.");
-        navigate("/admin/companies/create");
-      } else {
-        setInput((prevState) => ({
-          ...prevState,
-          name: companyName,
-        }));
-      }
-    }
-  }, [companyName, allCompanies, navigate]);
+        setInput({
+            name :editCompany?.name || "",
+            description :editCompany?.description || "",
+            website :editCompany?.website || "",
+            location :editCompany?.location || "",
+        })
+  }, [navigate]);
 
   return (
     <div>
@@ -96,12 +88,12 @@ function AdminCompanySetup() {
               <Button
                 variant="ghost"
                 className="text-gray-500 font-semibold"
-                onClick={() => navigate("/admin/companies/create")}
+                onClick={() => navigate("/admin/companies")}
               >
                 <ArrowLeft className="w-9" />
                 <span>Back</span>
               </Button>
-              <span className="text-xl font-bold ml-6">Company Setup</span>
+              <span className="text-xl font-bold ml-6">Edit Your Company</span>
             </div>
             <div className="grid grid-cols-2 ml-7 pb-8 mt-7 ">
               <div>
@@ -156,7 +148,7 @@ function AdminCompanySetup() {
               </div>
             </div>
             {loading ? (
-              <div className="mx-auto w-full mt-7 mb-4">
+              <div className="mx-7 mb-8">
                 <Button className="w-full bg-blue-500 hover:bg-blue-400 active:bg-blue-600">
                   {" "}
                   <Loader2 className="mr-1 h-4 w-4 animate-spin" />
@@ -168,7 +160,7 @@ function AdminCompanySetup() {
                 className="bg-blue-600 hover:bg-blue-500 active:bg-blue-700 w-[548px] mx-7 mb-8"
                 type="submit"
               >
-                Create
+                Update
               </Button>
             )}
           </form>

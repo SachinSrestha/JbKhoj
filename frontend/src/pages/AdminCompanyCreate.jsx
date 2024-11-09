@@ -18,7 +18,7 @@ function AdminCompanyCreate() {
     if(!companyName){
         setError("Company Name is Required");
     }else{
-        navigate("/admin/companies/setup")
+        navigate(`/admin/companies/setup/${companyName}`)
     }
   }
   return (
