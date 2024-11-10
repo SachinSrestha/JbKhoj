@@ -19,7 +19,7 @@ function JobsTable() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { filteredJobName } = useSelector((store) => store.job);
-  const { allAdminJobs  } = useSelector((store) => store.job);
+  const { allAdminJobs } = useSelector((store) => store.job);
 
   const [filterJob, setFilterJob] = useState(allAdminJobs);
 
@@ -79,7 +79,10 @@ function JobsTable() {
                         <Edit2 className="size-4" />
                         <span className="text-base">Edit</span>
                       </div>
-                      <div className="flex items-center gap-2 w-fit cursor-pointer">
+                      <div
+                        className="flex items-center gap-2 w-fit cursor-pointer"
+                        onClick={() => navigate(`/admin/jobs/${job._id}/applicants`)}
+                      >
                         <Eye className="size-5" />
                         <span className="text-base">Applicants</span>
                       </div>
