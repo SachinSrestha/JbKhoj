@@ -19,7 +19,7 @@ function JobsTable() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { filteredJobName } = useSelector((store) => store.job);
-  const { allAdminJobs } = useSelector((store) => store.job);
+  const { allAdminJobs  } = useSelector((store) => store.job);
 
   const [filterJob, setFilterJob] = useState(allAdminJobs);
 
@@ -30,9 +30,12 @@ function JobsTable() {
         if (!filteredJobName) {
           return true;
         } else {
-          return job?.name
-            ?.toLowerCase()
-            .includes(filteredJobName.toLowerCase());
+          return (
+            job?.title?.toLowerCase().includes(filteredJobName.toLowerCase()) ||
+            job?.company?.name
+              .toLowerCase()
+              .includes(filteredJobName.toLowerCase())
+          );
         }
       });
     setFilterJob(filteredJob);
@@ -40,7 +43,7 @@ function JobsTable() {
   return (
     <div>
       <Table>
-        <TableCaption>A list of your recent jobs.</TableCaption>
+        <TableCaption>A list of your recently created jobs.</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead className="w-[275px]">Company Name</TableHead>
@@ -55,7 +58,7 @@ function JobsTable() {
           ) : filterJob?.length <= 0 ? (
             <span>No Jobs Found</span>
           ) : (
-            allAdminJobs?.map((job, index) => (
+            filterJob?.map((job, index) => (
               <TableRow key={index}>
                 <TableCell>{job?.company?.name}</TableCell>
                 <TableCell>{job?.title}</TableCell>

@@ -9,9 +9,8 @@ import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 function AdminJobs() {
-  useGetAllAdminJobs();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch(); 
   const [filter, setFilter] = useState("");
   const handleChange = (e) => {
     setFilter(e.target.value);
