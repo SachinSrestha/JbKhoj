@@ -2,7 +2,6 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { APPLICATION_API_END_POINT } from "../utils/constant.js";
-import { setAllApplicants } from "@/store/applicationSlice.js";
 import { setLoading } from "@/store/companySlice.js";
 import { setAllAppliedJobs } from "@/store/jobslice.js";
 
