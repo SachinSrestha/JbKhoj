@@ -7,8 +7,10 @@ import React, { useState } from "react";
 import AppliedJobTable from "@/components/shared/AppliedJobTable";
 import UpdateProfileDialog from "@/components/shared/UpdateProfileDialog";
 import { useSelector } from "react-redux";
+import useGetAppliedJobs from "@/hooks/useGetAppliedJobs";
 
 function Profile() {
+  useGetAppliedJobs();
   const [open, setOpen]= useState(false);
   const {user} = useSelector(store => store.auth)
   let isResume = false;

@@ -14,6 +14,7 @@ import AdminCompanySetup from './pages/AdminCompanySetup.jsx'
 import AdminCompanyEdit from './pages/AdminCompanyEdit.jsx'
 import AdminJobCreate from './pages/AdminJobCreate.jsx'
 import ApplicantsList from './pages/ApplicantsList.jsx'
+import AdminJobEdit from './pages/AdminJobEdit.jsx'
 
 const appRouter =createBrowserRouter([
   {
@@ -72,6 +73,10 @@ const appRouter =createBrowserRouter([
   {
     path:"/admin/jobs/:id/applicants",
     element:<ApplicantsList/>
+  },
+  {
+    path:"/admin/jobs/edit/:id",
+    element:<AdminJobEdit/>
   },
 ])
 

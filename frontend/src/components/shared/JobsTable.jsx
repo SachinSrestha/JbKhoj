@@ -72,7 +72,7 @@ function JobsTable() {
                       <div
                         className="flex items-center gap-3  w-fit cursor-pointer"
                         onClick={() => {
-                          navigate(`/admin/companies/edit/${company?.name}`);
+                          navigate(`/admin/jobs/edit/${job?._id}`);
                           dispatch(setEditCompany(company));
                         }}
                       >

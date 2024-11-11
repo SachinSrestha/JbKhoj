@@ -4,16 +4,17 @@ import { useDispatch } from "react-redux";
 import { APPLICATION_API_END_POINT } from "../utils/constant.js";
 import { setAllApplicants } from "@/store/applicationSlice.js";
 import { setLoading } from "@/store/companySlice.js";
+import { setAllAppliedJobs } from "@/store/jobslice.js";
 
-const useGetApplicants = (jobId)=>{
+const useGetAppliedJobs = ()=>{
     const dispatch = useDispatch();
     useEffect(()=>{
-        const fetchApplicants = async()=>{
+        const fetchAppliedJobs = async()=>{
             try {
                 dispatch(setLoading(true));
-                const res = await axios.get(`${APPLICATION_API_END_POINT}/getapplicants/${jobId}`, {withCredentials:true});
+                const res = await axios.get(`${APPLICATION_API_END_POINT}/getappliedjobs`, {withCredentials:true});
                 if(res.data.success){
-                    dispatch(setAllApplicants(res.data.job))
+                    dispatch(setAllAppliedJobs(res.data.applications))
                 }
             } catch (error) {
                 console.log(error)
@@ -21,8 +22,8 @@ const useGetApplicants = (jobId)=>{
                 dispatch(setLoading(false))
             }
         }
-        fetchApplicants();
+        fetchAppliedJobs();
     },[])
 }
 
-export default useGetApplicants
+export default useGetAppliedJobs
