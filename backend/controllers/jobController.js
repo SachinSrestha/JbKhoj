@@ -35,7 +35,9 @@ export const postJob = asyncHandler(async(req,res)=>{
     await job.save();
 
     res.status(200).json({
-        message:"Job Posted Succesfully"
+        job,
+        message:"Job Posted Succesfully",
+        success:true
     })
 
 })
@@ -56,31 +58,31 @@ export const getAllJobs = asyncHandler(async (req,res)=>{
         throw new Error("No jobs found");
     }
 
-    res.status(200).json({jobs});
+    res.status(200).json({jobs,success:true});
 })
 
 //For students
 export const getJobById = asyncHandler(async(req,res)=>{
     const jobId = req.params.id;
-    const job = await Job.findById(jobId).populate({path:"company"}).sort({createdAt:-1});
+    const job = await Job.findById(jobId).populate({path:"company"}).populate({path:"applications"}).sort({createdAt:-1});
 
     if(!job){
         res.status(404);
         throw new Error("No job found!");
     }
 
-    res.status(200).json({job});
+    res.status(200).json({job,success:true});
 })
 
 //For admin
 export const getAdminJobs = asyncHandler(async (req,res)=>{
     const userId = req.user._id;
-    const jobs = await Job.find({created_by:userId});
+    const jobs = await Job.find({created_by:userId}).populate({path:"company"});
 
     if(!jobs){
         res.status(404);
         throw new Error("No jobs found!");
     }
 
-    res.status(200).json({jobs});
+    res.status(200).json({jobs,success:true});
 })

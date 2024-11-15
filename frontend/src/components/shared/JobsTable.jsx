@@ -68,7 +68,7 @@ function JobsTable() {
                     <PopoverTrigger>
                       <MoreHorizontal />
                     </PopoverTrigger>
-                    <PopoverContent className="w-32 space-y-2">
+                    <PopoverContent className="w-32 ">
                       <div
                         className="flex items-center gap-3  w-fit cursor-pointer"
                         onClick={() => {
@@ -76,8 +76,7 @@ function JobsTable() {
                           dispatch(setEditCompany(company));
                         }}
                       >
-                        <Edit2 className="size-4" />
-                        <span className="text-base">Edit</span>
+      
                       </div>
                       <div
                         className="flex items-center gap-2 w-fit cursor-pointer"

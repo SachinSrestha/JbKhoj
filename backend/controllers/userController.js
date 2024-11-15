@@ -66,10 +66,11 @@ export const login =asyncHandler(async (req,res)=>{
         throw new Error("Invalid Email or password");
     }
 
-    generate_jwt(user._id,res);
+    const token = generate_jwt(user._id,res);
     res.status(200).json({
         message:`Welcome back, ${user.fullName}`,
         user,
+        token:token,
         success:"true"
     });
 });

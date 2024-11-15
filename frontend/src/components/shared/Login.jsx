@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "./Navbar";
 import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
@@ -18,7 +18,7 @@ function Login() {
     password: "",
   });
 
-  const { loading } = useSelector((store) => store.auth);
+  const { loading,user } = useSelector((store) => store.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -37,6 +37,8 @@ function Login() {
         },
         withCredentials: true,
       });
+      const {token}= res.data;
+      localStorage.setItem("token", token)
       if (res.data.success) {
         dispatch(setUser(res.data.user));
         if(res.data.user.role === "student"){
@@ -53,6 +55,12 @@ function Login() {
       dispatch(setLoading(false));
     }
   };
+
+  useEffect(()=>{
+    if(user){
+      navigate("/")
+    }
+  },[])
 
   return (
     <div>

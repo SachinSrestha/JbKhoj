@@ -7,6 +7,7 @@ import { setFilteredCompanyName } from "@/store/companySlice.js";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 function AdminCompanies() {
   useGetAllCompanies();
@@ -19,6 +20,13 @@ function AdminCompanies() {
   useEffect(()=>{
     dispatch(setFilteredCompanyName(filterByName));
   },[filterByName])
+  const { user } = useSelector((store) => store.auth);
+  useEffect(() => {
+    if (user === null) {
+      navigate("/login");
+      toast.error("Session expired!")
+    }
+  }, [user]);
   return (
     <div>
       <Navbar />

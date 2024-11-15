@@ -8,6 +8,8 @@ import AppliedJobTable from "@/components/shared/AppliedJobTable";
 import UpdateProfileDialog from "@/components/shared/UpdateProfileDialog";
 import { useSelector } from "react-redux";
 import useGetAppliedJobs from "@/hooks/useGetAppliedJobs";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 function Profile() {
   useGetAppliedJobs();
@@ -20,6 +22,13 @@ function Profile() {
     isResume=false;
   }
   const skillsArray =user.profile.skills.map(skill=>skill)
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (user === null) {
+      navigate("/login");
+      toast.error("Session expired!")
+    }
+  }, [user]);
   return (
     <div>
       <Navbar />

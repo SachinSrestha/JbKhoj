@@ -5,8 +5,9 @@ import { Input } from '@/components/ui/input'
 import useGetAllAdminJobs from '@/hooks/useGetAllAdminJobs'
 import { setFilteredJobName } from '@/store/jobslice'
 import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 
 function AdminJobs() {
   const navigate = useNavigate();
@@ -18,6 +19,13 @@ function AdminJobs() {
   useEffect(()=>{
     dispatch(setFilteredJobName(filter));
   },[filter])
+  const { user } = useSelector((store) => store.auth);
+  useEffect(() => {
+    if (user === null) {
+      navigate("/login");
+      toast.error("Session expired!")
+    }
+  }, [user]);
   return (
     <div>
     <Navbar />

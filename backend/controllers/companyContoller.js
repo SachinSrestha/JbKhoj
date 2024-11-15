@@ -1,10 +1,16 @@
 import asyncHandler from "express-async-handler";
 import {Company} from "../models/companyModel.js";
 import { User } from "../models/userModel.js";
+import { getDataURI } from "../utils/generateURL.js";
+import cloudinary from '../utils/cloudinary.js';
 
 export const registerCompany = asyncHandler(async (req,res)=>{
     const {name, description, website, location} = req.body;
     const user = await User.findById(req.user._id);
+
+    const file = req.file;
+    const fileURI = getDataURI(file);
+    const cloudData = await cloudinary.uploader.upload(fileURI.content);
 
     if(!name || !location){
         res.status(400);
@@ -28,7 +34,8 @@ export const registerCompany = asyncHandler(async (req,res)=>{
         location,
         description:desc,
         website:web,
-        userId
+        userId,
+        logo: cloudData?.secure_url
     })
 
     user.profile.company.push(company._id);
@@ -37,7 +44,9 @@ export const registerCompany = asyncHandler(async (req,res)=>{
     await company.save();
 
     res.status(200).json({
-        message:"Company Registered Succesfully"
+        company,
+        message:"Company Registered Succesfully",
+        success:true
     })
 })
 
@@ -51,7 +60,7 @@ export const getCompany = asyncHandler(async (req,res)=>{
         throw new Error("No companies found");
     }
 
-    res.status(200).json({companies});
+    res.status(200).json({companies, success:true});
 })
 
 export const getCompanyById = asyncHandler(async (req,res)=>{
@@ -63,13 +72,26 @@ export const getCompanyById = asyncHandler(async (req,res)=>{
         throw new Error("No company found");
     }
 
-    res.status(200).json({company});
+    res.status(200).json({company, success:true});
 })
 
 export const updateCompany = asyncHandler(async (req,res)=>{
     const {name,description,website,location} = req.body;
     const companyId = req.params.id;
-    const updatedData = {name,description,website,location};
+    const currentCompany = await Company.findById(companyId);
+   
+    let logo = currentCompany.logo; 
+
+    if (req.file) {
+        const file = req.file;
+        const fileURI = getDataURI(file);
+        const cloudData = await cloudinary.uploader.upload(fileURI.content); 
+        logo = cloudData.secure_url; 
+    }
+
+    
+    const updatedData = {name,description,website,location,logo};
+
 
     let company =await Company.findByIdAndUpdate(companyId, updatedData, {new:true});
 
@@ -86,6 +108,8 @@ export const updateCompany = asyncHandler(async (req,res)=>{
     await company.save();
 
     res.status(200).json({
-        message:"Company Updated Succesfully"
+        company,
+        message:"Company Updated Succesfully",
+        success:true
     })
 })

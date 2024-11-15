@@ -55,7 +55,7 @@ function Navbar() {
                 <Link to="/browse">Browse</Link>{" "}
               </li>
             </ul>
-          ) : (
+          ) : user && user.role === "recruiter" ?(
             <ul className="flex font-medium items-center gap-5">
               <li>
                 <Link to="/admin/companies">Companies</Link>{" "}
@@ -64,6 +64,8 @@ function Navbar() {
                 <Link to="/admin/jobs">Jobs</Link>{" "}
               </li>
             </ul>
+          ) :(
+            null
           )}
 
           {!user ? (

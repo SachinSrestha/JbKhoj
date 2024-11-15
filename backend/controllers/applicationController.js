@@ -33,7 +33,8 @@ export const applyJob = asyncHandler(async (req,res)=>{
     await job.save();
 
     res.status(200).json({
-        message:"Applied to the job succesfully"
+        message:"Applied to the job succesfully",
+        success:true
     });
 })
 
@@ -46,7 +47,7 @@ export const getAppliedJobs = asyncHandler(async (req,res)=>{
         throw new Error("No applied jobs!");
     }
 
-    res.status(200).json({applications});
+    res.status(200).json({applications,success:true});
 })
 
 export const getApplicants = asyncHandler(async (req,res)=>{
@@ -64,7 +65,7 @@ export const getApplicants = asyncHandler(async (req,res)=>{
         throw new Error("No job found");
     }
 
-    res.status(200).json({job});
+    res.status(200).json({job, success:true});
 })
 
 export const updateStatus = asyncHandler(async (req,res)=>{
@@ -97,6 +98,7 @@ export const updateStatus = asyncHandler(async (req,res)=>{
     await application.save();
 
     res.status(200).json({
-        message:"Status Updated Succesfully."
+        message:"Status Updated Succesfully.",
+        success:true
     })
 })

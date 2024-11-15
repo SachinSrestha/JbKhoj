@@ -7,6 +7,8 @@ import { Loader2 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { toast } from "sonner";
 
 const randomJobList = [1, 2, 3, 4, 5, 6, 7, 8];
 
@@ -17,6 +19,13 @@ function Browse() {
   const dispatch = useDispatch();
   const { allJobs } = useSelector((store) => store.job);
   const { loading } = useSelector((store) => store.job);
+  const { user } = useSelector((store) => store.auth);
+  useEffect(() => {
+    if (user === null) {
+      navigate("/login");
+      toast.error("Session expired!")
+    }
+  }, [user]);
 
   return (
     <>
@@ -41,7 +50,11 @@ function Browse() {
                 <span>No Jobs Found</span>
               ) : (
                 allJobs.map((job, index) => (
-                  <div
+                  <motion.div
+                    initial={{ opacity: 0, x: 100 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -100 }}
+                    transition={{ duration: 0.3 }}
                     className="max-w-[425px] outline-none shadow-xl p-5 border-2 border-slate-100 rounded-lg cursor-pointer bg-white h-fit"
                     key={index}
                   >
@@ -87,7 +100,7 @@ function Browse() {
                         Save For Later
                       </Button>
                     </div>
-                  </div>
+                  </motion.div>
                 ))
               )}
             </div>
