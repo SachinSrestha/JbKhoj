@@ -23,7 +23,6 @@ function AdminJobs() {
   useEffect(() => {
     if (user === null) {
       navigate("/login");
-      toast.error("Session expired!")
     }
   }, [user]);
   return (

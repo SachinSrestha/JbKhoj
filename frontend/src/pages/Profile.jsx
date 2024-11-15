@@ -23,10 +23,11 @@ function Profile() {
   }
   const skillsArray =user.profile.skills.map(skill=>skill)
   const navigate = useNavigate();
+  const { isFirstTime} = useSelector((store) => store.auth);
   useEffect(() => {
-    if (user === null) {
+    if (user === null && isFirstTime) {
       navigate("/login");
-      toast.error("Session expired!")
+
     }
   }, [user]);
   return (

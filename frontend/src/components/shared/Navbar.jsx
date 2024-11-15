@@ -9,7 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { LogOut, User2 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import { setUser } from "@/store/authSlice";
+import { setIsFirstTime, setUser } from "@/store/authSlice";
 import axios from "axios";
 import { USER_API_END_POINT } from "@/utils/constant.js";
 import { toast } from "sonner";
@@ -26,6 +26,7 @@ function Navbar() {
       });
       if (res.data.success) {
         dispatch(setUser(null));
+        dispatch(setIsFirstTime(true));
         navigate("/login");
         toast.success(res.data.message);
       }

@@ -52,7 +52,6 @@ function SignUp() {
     formData.append("role", input.role);
     if (input.file) formData.append("file", input.file);
 
-    console.log(formData);
     try {
       const res = await axios.post(`${USER_API_END_POINT}/register`, formData, {
         headers: {

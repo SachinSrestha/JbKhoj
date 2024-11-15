@@ -7,7 +7,7 @@ import { useState } from "react";
 import axios from "axios";
 import { USER_API_END_POINT } from "../../utils/constant.js";
 import { toast } from "sonner";
-import { setLoading, setUser } from "@/store/authSlice.js";
+import { setIsFirstTime, setLoading, setUser } from "@/store/authSlice.js";
 import { useDispatch, useSelector } from "react-redux";
 import store from "@/store/store.js";
 import { Loader2 } from "lucide-react";
@@ -18,7 +18,7 @@ function Login() {
     password: "",
   });
 
-  const { loading,user } = useSelector((store) => store.auth);
+  const { loading,user , isFirstTime} = useSelector((store) => store.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -41,6 +41,7 @@ function Login() {
       localStorage.setItem("token", token)
       if (res.data.success) {
         dispatch(setUser(res.data.user));
+        dispatch(setIsFirstTime(false))
         if(res.data.user.role === "student"){
           navigate("/");
         }else{

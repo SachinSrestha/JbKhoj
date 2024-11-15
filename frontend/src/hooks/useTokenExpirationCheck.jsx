@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
-import { setUser } from "@/store/authSlice";
+import  jwtDecode from "jwt-decode";
+import { setIsFirstTime, setUser } from "@/store/authSlice";
 import { useEffect } from "react";
 
 const useTokenExpirationCheck = () => {

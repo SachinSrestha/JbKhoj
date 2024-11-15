@@ -19,11 +19,10 @@ function Browse() {
   const dispatch = useDispatch();
   const { allJobs } = useSelector((store) => store.job);
   const { loading } = useSelector((store) => store.job);
-  const { user } = useSelector((store) => store.auth);
+  const { user , isFirstTime} = useSelector((store) => store.auth);
   useEffect(() => {
-    if (user === null) {
+    if (user === null && isFirstTime) {
       navigate("/login");
-      toast.error("Session expired!")
     }
   }, [user]);
 

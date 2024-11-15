@@ -14,11 +14,11 @@ import { toast } from 'sonner'
 function Home() {
   useGetAllJobs();
   const navigate = useNavigate();
-  const { user } = useSelector((store) => store.auth);
+  const { user , isFirstTime} = useSelector((store) => store.auth);
   useEffect(() => {
-    if (user === null) {
+    if (user === null && isFirstTime) {
       navigate("/login");
-      toast.error("Session expired!")
+
     }
   }, [user]);
 

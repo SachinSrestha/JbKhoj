@@ -20,11 +20,10 @@ function AdminCompanies() {
   useEffect(()=>{
     dispatch(setFilteredCompanyName(filterByName));
   },[filterByName])
-  const { user } = useSelector((store) => store.auth);
+  const { user, isFirstTime } = useSelector((store) => store.auth);
   useEffect(() => {
-    if (user === null) {
+    if (user === null ) {
       navigate("/login");
-      toast.error("Session expired!")
     }
   }, [user]);
   return (

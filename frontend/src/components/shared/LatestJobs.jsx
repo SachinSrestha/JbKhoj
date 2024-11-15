@@ -1,18 +1,21 @@
+import useGetAllJobs from "@/hooks/useGetAllJobs";
 import React from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 function LatestJobs() {
+ 
   const navigate = useNavigate();
   const { allJobs } = useSelector((store) => store.job);
+  const { user } = useSelector((store) => store.auth);
   return (
     <div className="mb-24 ">
       <h1 className="text-4xl ml-20 font-bold mt-20">
         <span className="text-[#6743b5]">Latest and Top </span> Job Openings
       </h1>
       <div className="grid grid-cols-3 gap-x-6 gap-y-5 ml-20 mt-6 h-auto mr-12">
-        {allJobs.length <= 0 ? (
-          <span>No Jobs Found</span>
+        {allJobs.length <= 0 || user===null? (
+          <span className="text-xl font-semibold  text-red-500 mt-3">No Jobs Found</span>
         ) : (
           allJobs.slice(0, 6).map((job) => (
             <div
