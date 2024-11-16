@@ -79,7 +79,8 @@ export const logout = asyncHandler(async (req,res)=>{
     res.cookie("token", "", {
         maxAge:0,
         httpOnly:true,
-        sameSite:"strict",
+        sameSite:"none",
+        secure:true,
     });
 
     res.status(200).json({

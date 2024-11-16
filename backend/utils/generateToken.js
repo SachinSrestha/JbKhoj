@@ -6,7 +6,7 @@ export const generate_jwt = (id,res)=>{
     res.cookie("token", token, {
         maxAge : 10*1000,
         httpOnly:true,
-        sameSite:"strict",
+        sameSite:"none",
     });
     return token
 }
