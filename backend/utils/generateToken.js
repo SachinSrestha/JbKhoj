@@ -7,6 +7,7 @@ export const generate_jwt = (id,res)=>{
         maxAge : 10*1000,
         httpOnly:true,
         sameSite:"none",
+        secure:false,
     });
     return token
 }
