@@ -3,7 +3,7 @@ import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Contact, Mail, Pen, User } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AppliedJobTable from "@/components/shared/AppliedJobTable";
 import UpdateProfileDialog from "@/components/shared/UpdateProfileDialog";
 import { useSelector } from "react-redux";
